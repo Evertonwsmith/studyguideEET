@@ -1,6 +1,7 @@
 :root {
     /* Colors */
     --color-bg: #f5f7fa;
+    --color-wip: rgb(255, 211, 211);
     --color-text-primary: #1a1a2e;
     --color-text-secondary: #555;
     --color-text-muted: #888;
@@ -97,6 +98,18 @@ main {
 
 .semester-card {
     background: var(--color-white);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    box-shadow: 0 2px 8px var(--color-card-shadow);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+.semester-card-wip {
+    background: var(--color-wip);
     border-radius: var(--radius-md);
     padding: var(--spacing-lg);
     box-shadow: 0 2px 8px var(--color-card-shadow);
