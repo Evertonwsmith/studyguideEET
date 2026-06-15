@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELTR 262 Single-Phase Conversions</title>
+    <link rel="stylesheet" href="../../../../assets/css/style.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Single-Phase Conversions</h1>
+    </header>
+
+    <main>
+        <div class="breadcrumb">
+            <a href="../index.html" class="back-link">← Back to ELTR 262</a>
+        </div>
+
+        <div class="content">
+            <div class="container">
+
+                <div class="controls">
+                    <button id="startBtn" class="btn-start">Start Simulation</button>
+                    <button id="stopBtn" class="btn-stop" disabled>Stop</button>
+                </div>
+
+                <svg width="500" height="250" viewBox="0 0 500 250">
+                    <circle id="src-circle" cx="50" cy="125" r="20" class="wire" />
+                    <path d="M 42 125 Q 46 115 50 125 T 58 125" class="wire" />
+
+                    <path id="wire-src-top" d="M 50 105 L 50 60 L 100 60" class="wire" />
+                    <path id="wire-src-bot" d="M 50 145 L 50 190 L 100 190" class="wire" />
+
+                    <path id="tx-pri"
+                        d="M 100 60 C 110 70 110 80 100 90 C 110 100 110 111 100 121 C 110 131 110 142 100 152 C 110 162 110 173 100 190"
+                        class="wire" />
+                    <line x1="115" y1="60" x2="115" y2="190" stroke="#555" stroke-width="2" />
+                    <line x1="120" y1="60" x2="120" y2="190" stroke="#555" stroke-width="2" />
+                    <path id="tx-sec"
+                        d="M 135 60 C 125 70 125 80 135 90 C 125 100 125 111 135 121 C 125 131 125 142 135 152 C 125 162 125 173 135 190"
+                        class="wire" />
+
+                    <path id="wire-sec-top" d="M 135 60 L 220 60" class="wire" />
+                    <path id="wire-sec-bot" d="M 135 190 L 400 190" class="wire" />
+
+                    <g id="diode">
+                        <polygon points="220,50 220,70 240,60" fill="none" stroke="#555" stroke-width="3"
+                            class="component" />
+                        <line x1="240" y1="50" x2="240" y2="70" stroke="#555" stroke-width="3" class="component" />
+                    </g>
+                    <path id="wire-diode-out" d="M 240 60 L 400 60" class="wire" />
+
+                    <path id="load-res"
+                        d="M 400 60 L 400 95 L 390 100 L 410 107 L 390 114 L 410 121 L 390 128 L 410 135 L 400 140 L 400 190"
+                        class="wire" />
+                </svg>
+
+                <div class="grid-inputs">
+                    <div class="input-group">
+                        <label for="turnsRatio">Turns Ratio (N<sub>sec</sub>/N<sub>pri</sub>)</label>
+                        <input type="number" id="turnsRatio" step="any" value="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label for="vSource">V Source (V<sub>RMS</sub>)</label>
+                        <input type="number" id="vSource" step="any" value="120">
+                    </div>
+                    <div class="input-group">
+                        <label for="vSourcePeak">V Source Peak (V<sub>pk</sub>)</label>
+                        <input type="number" id="vSourcePeak" step="any" value="169.71">
+                    </div>
+                    <div class="input-group">
+                        <label for="vSecondary">V Secondary (V<sub>RMS</sub>)</label>
+                        <input type="number" id="vSecondary" step="any" value="12">
+                    </div>
+                    <div class="input-group">
+                        <label for="vSecPeak">V Sec Peak (V<sub>pk</sub>)</label>
+                        <input type="number" id="vSecPeak" step="any" value="16.97">
+                    </div>
+                    <div class="input-group">
+                        <label for="loadResistor">Load Resistance (Ω)</label>
+                        <input type="number" id="loadResistor" step="any" value="100">
+                    </div>
+                    <div class="input-group">
+                        <label for="frequency">Source Frequency (Hz)</label>
+                        <input type="number" id="frequency" step="any" value="60">
+                    </div>
+                </div>
+
+                <div class="toggle-group">
+                    <label>Ideal Diode (0V)</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="diodeToggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <label>Practical Diode (0.7V)</label>
+                </div>
+
+                <div class="section-title">📊 Load Output</div>
+                <div class="results-grid" id="loadResults">
+                    <div class="result-card">
+                        <div class="label">Load Voltage (DC)</div>
+                        <div class="value dc" id="vLoadDc">0 V</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="label">Load Voltage (RMS)</div>
+                        <div class="value rms" id="vLoadRms">0 V</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="label">Load Voltage (Peak)</div>
+                        <div class="value peak" id="vLoadPk">0 V</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="label">Load Current (DC)</div>
+                        <div class="value dc" id="iLoadDc">0 A</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="label">Load Current (RMS)</div>
+                        <div class="value rms" id="iLoadRms">0 A</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="label">Load Current (Peak)</div>
+                        <div class="value peak" id="iLoadPk">0 A</div>
+                    </div>
+                </div>
+
+                <div class="section-title">🔧 Diode Characteristics</div>
+                <div class="results-grid" id="diodeResults">
+                    <div class="result-card">
+                        <div class="label">Diode Voltage Drop</div>
+                        <div class="value" id="diodeVdrop" style="color: #ffa502;">0 V</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="label">Diode Current (DC)</div>
+                        <div class="value dc" id="diodeIdc">0 A</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="label">I<sub>max</sub> (Peak Diode Current)</div>
+                        <div class="value peak" id="diodeImax">0 A</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="label">V<sub>PIV</sub> (Peak Inverse Voltage)</div>
+                        <div class="value peak" id="diodePIV">0 V</div>
+                    </div>
+                </div>
+
+                <div class="section-title">📈 Performance Metrics</div>
+                <div class="results-grid" id="metricsResults">
+                    <div class="result-card">
+                        <div class="label">Form Factor</div>
+                        <div class="value" id="formFactor" style="color: #ffa502;">0</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="label">Ripple Factor</div>
+                        <div class="value" id="rippleFactor" style="color: #ffa502;">0</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="label">Ripple Frequency</div>
+                        <div class="value" id="rippleFreq" style="color: #1e90ff;">0 Hz</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="label">Source Frequency</div>
+                        <div class="value" id="sourceFreq" style="color: #fff;">0 Hz</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>EET Study Guide &mdash; Built for learning</p>
+    </footer>
+
+    <script src="../../../../assets/js/main.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

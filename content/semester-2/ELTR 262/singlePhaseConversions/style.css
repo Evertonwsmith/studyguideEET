@@ -1,0 +1,211 @@
+:root {
+    --wire-idle: #555;
+    --wire-active-pos: #ff4757;
+    --wire-active-neg: #1e90ff;
+    --bg-color: #1e1e24;
+    --card-bg: #2a2a35;
+    --card-alt: #333340;
+    --text-color: #f1f2f6;
+    --accent-green: #2ed573;
+    --accent-red: #ff4757;
+    --accent-blue: #1e90ff;
+    --border-color: #5758bb;
+    --muted: #a4b0be;
+}
+
+.container {
+    background-color: var(--card-bg);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    max-width: 700px;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.controls {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+button {
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-start {
+    background-color: var(--accent-green);
+    color: #fff;
+}
+.btn-start:hover { background-color: #26af5f; }
+
+.btn-stop {
+    background-color: var(--accent-red);
+    color: #fff;
+}
+.btn-stop:hover { background-color: #e04040; }
+
+button:disabled { background-color: #555; cursor: not-allowed; }
+
+svg {
+    background: #fff;
+    border-radius: 8px;
+    margin: 20px 0;
+    max-width: 100%;
+}
+
+.wire, .component {
+    stroke: var(--wire-idle);
+    stroke-width: 3;
+    fill: none;
+    transition: stroke 0.3s ease;
+}
+
+.active-pos { stroke: var(--wire-active-pos) !important; }
+.active-neg { stroke: var(--wire-active-neg) !important; }
+
+.grid-inputs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+    text-align: left;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: var(--muted);
+}
+
+.input-group input {
+    background-color: #3f3f4e;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 8px;
+    color: #fff;
+    font-size: 16px;
+}
+
+.input-group input:focus {
+    outline: 2px solid var(--accent-green);
+}
+
+.toggle-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 15px 0;
+    justify-content: center;
+}
+
+.toggle-group label {
+    font-size: 14px;
+    color: var(--muted);
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 28px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #555;
+    border-radius: 28px;
+    transition: 0.3s;
+}
+
+.toggle-slider::before {
+    content: "";
+    position: absolute;
+    height: 22px; width: 22px;
+    left: 3px; bottom: 3px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+    background-color: var(--accent-green);
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+    transform: translateX(32px);
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 20px;
+    text-align: left;
+}
+
+@media (min-width: 600px) {
+    .results-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.result-card {
+    background: var(--card-alt);
+    border-radius: 8px;
+    padding: 12px;
+    border-left: 3px solid var(--accent-green);
+}
+
+.result-card .label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    margin-bottom: 4px;
+}
+
+.result-card .value {
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.result-card .value.dc { color: #2ed573; }
+.result-card .value.rms { color: #ffa502; }
+.result-card .value.peak { color: #1e90ff; }
+
+.section-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    text-align: left;
+    color: #fff;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 8px;
+}
